@@ -1,0 +1,4 @@
+Host remote
+	HostName 212.192.34.3
+	Port 22
+	User alun

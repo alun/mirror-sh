@@ -18,6 +18,8 @@ OVERRIDE_CONFIG_FILE="$SCRIPT_DIR/mirror.conf"
 CONF_SYNC_SCRIPT="$SCRIPT_DIR/conf_sync"
 DATA_SYNC_SCRIPT="$SCRIPT_DIR/data_sync"
 MYSQL_SYNC_SCRIPT="$SCRIPT_DIR/mysql_sync"
+CHECK_SOFT_SCRIPT="$SCRIPT_DIR/check_soft"
+SSH_CONFIG="$SCRIPT_DIR/ssh_config"
 
 echo "Omsk regional informatization center"
 echo "Mail server mirroring software"
@@ -34,6 +36,16 @@ echo "Mail server mirroring software"
 [ ! -f "$MYSQL_SYNC_SCRIPT" ] && \
 	die "Mysql synchronization script not found"
 
+[ ! -f "$CHECK_SOFT_SCRIPT" ] && \
+	die "Check soft script not found"
+
+[ ! -f "$SSH_CONFIG" ] && \
+	die "No ssh config found"
+
+alias ssh="ssh -F $SSH_CONFIG -oBatchMode=yes remote"
+
+. "$CHECK_SOFT_SCRIPT"
+
 echo "Applying default configuration: $DEFAULT_CONFIG_FILE"
 . "$DEFAULT_CONFIG_FILE"
 
@@ -42,6 +54,7 @@ echo "Applying default configuration: $DEFAULT_CONFIG_FILE"
 	. "$OVERRIDE_CONFIG_FILE"
 }
 
-echo $mysql_user
+echo "Performing mysql database synchronization..."
+. "$MYSQL_SYNC_SCRIPT"
 
 exit 0

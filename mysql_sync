@@ -1,3 +1,11 @@
 #!/bin/sh
 
 # Синхронизация базы данных mysql
+ssh mysqldump \
+	-u$mysql_remote_user \
+	-p$mysql_remote_password \
+	$mysql_remote_database \
+| mysql \
+	-u$mysql_local_user \
+	-p$mysql_local_password \
+	-D$mysql_local_database

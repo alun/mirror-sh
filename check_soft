@@ -1,0 +1,9 @@
+# проверка установки необходимого ПО
+
+[ -x "`which git`" ] || die "No git installed"
+[ -x "`which ssh`" ] || die "No ssh installed"
+[ -x "`which mysql`" ] || die "No mysql installed"
+
+# проверка ssh соединения
+ssh echo test 2>&1 >/dev/null
+[ "$?" = "0" ] || die "Bad ssh config"

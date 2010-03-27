@@ -3,11 +3,16 @@
 # IP адрес мастер сервера
 master_ip=212.192.34.14
 
-# имя пользователя mysql
-mysql_user=mirror
-mysql_password=mirror
-mysql_port=3306
+# данные mysql
+mysql_local_user=postfix
+mysql_local_password=postfix
+mysql_local_database=postfix
+
+mysql_remote_user=postfix
+mysql_remote_password=postfix
+mysql_remote_database=postfix
 
 # пути к локальному git-репозиторию с конфигурацией
+remote_conf_repo_path=/usr/config
 conf_repo_path=/usr/config
 
