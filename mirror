@@ -1,3 +1,47 @@
 #!/bin/sh
 
 # Главный скрипт запускающий полное зеркалирование
+
+die() {
+	[ -n "$1" ] && echo "Error: $1"
+
+	local CODE=1
+	[ -n "$2" ] && CODE="$2"
+	exit $CODE
+}
+
+SCRIPT_PATH=`readlink -f "$0"`
+SCRIPT_DIR=`dirname "$SCRIPT_PATH"`
+DEFAULT_CONFIG_FILE="$SCRIPT_DIR/mirror.conf.default"
+OVERRIDE_CONFIG_FILE="$SCRIPT_DIR/mirror.conf"
+
+CONF_SYNC_SCRIPT="$SCRIPT_DIR/conf_sync"
+DATA_SYNC_SCRIPT="$SCRIPT_DIR/data_sync"
+MYSQL_SYNC_SCRIPT="$SCRIPT_DIR/mysql_sync"
+
+echo "Omsk regional informatization center"
+echo "Mail server mirroring software"
+
+[ ! -f "$DEFAULT_CONFIG_FILE" ] && \
+	die "Default configuration not found"
+
+[ ! -f "$CONF_SYNC_SCRIPT" ] && \
+	die "Cofiguration synchronization script not found"
+
+[ ! -f "$DATA_SYNC_SCRIPT" ] && \
+	die "Data synchronization script not found"
+
+[ ! -f "$MYSQL_SYNC_SCRIPT" ] && \
+	die "Mysql synchronization script not found"
+
+echo "Applying default configuration: $DEFAULT_CONFIG_FILE"
+. "$DEFAULT_CONFIG_FILE"
+
+[ -f "$OVERRIDE_CONFIG_FILE" ] && { \
+	echo "Applying override configuration: $OVERRIDE_CONFIG_FILE"
+	. "$OVERRIDE_CONFIG_FILE"
+}
+
+echo $mysql_user
+
+exit 0

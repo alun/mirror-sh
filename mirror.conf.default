@@ -1,0 +1,13 @@
+# файл конфигурации зеркалирования
+
+# IP адрес мастер сервера
+master_ip=212.192.34.14
+
+# имя пользователя mysql
+mysql_user=mirror
+mysql_password=mirror
+mysql_port=3306
+
+# пути к локальному git-репозиторию с конфигурацией
+conf_repo_path=/usr/config
+
